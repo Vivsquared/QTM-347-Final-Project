@@ -2,7 +2,7 @@
 **Authors: Jennifer Jiang, Vivienne Yu**
 
 ## 1. Abstract
-Breast cancer ranks as the second most prevalent cancer among women in the United States. The current diagnostic process is often protracted, spanning several weeks. In an effort to expedite this critical diagnostic phase, the study have explored the application of machine learning models. It utilizes a comprehensive dataset comprising attributes of breast masses, derived from breast tumors, which may or may not be cancerous. Through rigorous examination of various subset selection models, the most impactful predictors are identified for the 'diagnosis' outcome. These key variables are associated with concavity, compactness, radius, texture, area, and smoothness. Subsequently, the study assessed a range of machine learning models to determine the one yielding the highest accuracy. The findings reveal that the random forest model excels in predicting diagnoses, thereby offering a promising approach for enhancing the efficiency and accuracy of breast cancer diagnosis.
+Breast cancer ranks as the second most prevalent cancer among women in the United States. The current diagnostic process is often protracted, spanning several weeks. In an effort to expedite this critical diagnostic phase, the study have explored the application of machine learning models. It utilizes a comprehensive dataset comprising attributes of breast masses, derived from breast tumors, which may or may not be cancerous. Through rigorous examination of various subset selection models, the most impactful predictors are identified for the 'diagnosis' outcome. These key variables are associated with concavity, compactness, radius, texture, area, and smoothness. Subsequently, the study assessed a range of machine learning models to determine the one yielding the highest accuracy. The findings reveal that the logit model with the features chosen through forward and backward selections and the random forest model excel in predicting diagnoses, thereby offering promising approaches for enhancing the efficiency and accuracy of breast cancer diagnosis.
 
 ## 2. Introduction
 ### 2.1 Problems and Motivations
@@ -18,7 +18,7 @@ According to the research "Prediction of Breast Cancer using Machine Learning Ap
 ## 3. Setup
 ### 3.1 Dataset
 The dataset used for this research is called the Breast Cancer Wisconsin (Diagnostic) Dataset collected and published by UCI Machine Learning Repository. The dataset contains a total of 30 different features that are computed from a digitized image of a fine needle aspirate (FNA) of a breast mass extracted from the tumor, and they describe characteristics of the cell nuclei present in the image below. 
-![Fine needle aspirate of a breast mass](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/FNA%20image.png)
+![Fine needle aspirate of a breast mass](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Explorative%20Data%20Analysis/FNA%20image.png)
 
 The dataset features a categorical column labeled 'diagnosis', where 'M' denotes malignant (cancerous tumors) and 'B' indicates benign (non-cancerous tumors). For analytical purposes, this variable will be transformed into a binary format, with 1 representing malignant and 0 representing benign. Additionally, the dataset includes a column that is empty and another containing patient IDs; both of these will be omitted from the analysis to ensure data integrity and privacy. The table below enumerates all 30 features along with the response variable, diagnosis.
 
@@ -125,7 +125,7 @@ Lasso has a high shrinkage penalty, while for multiple parameters shrinkage pena
 <summary>Logit Model</summary>
 <br> Logit Model is a parametric statistical method that models the probability of a binary outcome based on one or more predictor variables. It is a type of regression analysis that is appropriate for predicting the outcome of a categorical dependent variable, particularly when the dependent variable is binary—meaning it has only two possible outcomes (in this case, "Malignant" vs "Benign"). The probability of the outcome is modeled using the logistic function, which is an S-shaped curve that can take any real-valued number and map it into a value between 0 and 1. 
 
-<br> The threshold for the logit model used in this study is set to 0.5, meaning any value greater than 0.5 will set to 1, malignant, and any value smaller than 0.5 will set to 0, benign. 
+<br> The threshold for the logit model used in this study is set to 0.5, meaning any value greater than 0.5 will set to 1, malignant, and any value smaller than 0.5 will set to 0, benign. The logit model will be fitted 3 times. The first time using all the features. The second time using the 13 best features from forward selection. The third time using the 12 best features from backward selection.
 
 </details>
 
@@ -316,11 +316,17 @@ With k set to 7, the KNN model is refitted to make predictions on the test set. 
 
 #### 4.1.7 Logit Model - Forward Selection
 
-<br> A second logit model is built with only the 13 import variables from the forward selection, which are 'concave points_worst', 'radius_worst', 'texture_worst', 'area_worst', 'smoothness_se', 'symmetry_worst', 'compactness_se', 'radius_se', 'fractal_dimension_worst', 'compactness_mean', 'concave points_mean', 'concavity_worst', 'concavity_se'. The misclassification rate is 0.018. Analysis of the confusion matrix reveals that the model demonstrates similar rates of misclassification for both false positives (incorrectly identifying benign as malignant) and false negatives (incorrectly identifying malignant as benign).
+<br> A second logit model is built with only the 13 important variables from the forward selection, which are 'compactness_mean', 'concave points_mean', 'radius_se', 'smoothness_se', 'concavity_se', 'concave points_se', 'radius_worst', 'texture_worst', 'area_worst', 'concavity_worst', 'symmetry_worst', 'fractal_dimension_worst'. The misclassification rate is 0.006. Analysis of the confusion matrix reveals that the model demonstrates similar rates of misclassification for both false positives (incorrectly identifying benign as malignant) and false negatives (incorrectly identifying malignant as benign).
 
+![Logit Model Forward Selection Confusing Table](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Machine%20Learning%20Models/confusion%20table%20-%20FS.png)
 
+#### 4.1.8 Logit Model - Backward Selection
 
-#### 4.1.7 Random Forest
+<br> A third logit model is built with only the 12 important variables from the forward selection, which are 'concave points_worst', 'radius_worst', 'texture_worst', 'area_worst', 'smoothness_se', 'symmetry_worst', 'compactness_se', 'radius_se', 'fractal_dimension_worst', 'compactness_mean', 'concave points_mean', 'concavity_worst', 'concavity_se'. The misclassification rate is 0.018. Analysis of the confusion matrix reveals that the model has done a very accurate job in predicting y for the test set with only one false negative case.
+
+![Logit Model Backward Selection Confusing Table](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Machine%20Learning%20Models/confusion%20table%20-%20BS.png)
+
+#### 4.1.9 Random Forest
 
 <br> The dataset is partitioned into a training set comprising 70% of the data and a testing set comprising the remaining 30%. A grid of parameters is established for the Random Forest model, including a range of estimators (50, 100, 150, 200, 250), a maximum number of features varying from 1 to 30, and minimum sample splits of 2, 5, 10, 15. This parameter grid is utilized in a 5-fold cross-validation process to determine the most effective combination of parameters for the Random Forest model. The optimal parameters identified are: max_features set to 4, min_samples_split to 2, and n_estimators to 200.
 
@@ -337,10 +343,11 @@ Subsequently, the Random Forest model is retrained using these identified best p
 | KNN Classification    | 0.029                    |
 | Logit Model           | 0.041                    |
 | Logit Model - Forward Selection           | 0.018                    |
+| Logit Model - Backward Selection | 0.006 |
 | Random Forest         | 0.018                    |
 | Clustering            | 0.090                    |
 
-This comparison illustrates the misclassification rates of various models, mirroring findings from the article "Prediction of Breast Cancer using Machine Learning Approaches." Consistent with the article, the Random Forest model emerges as the top performer in this study, exhibiting a misclassification rate of 0.018, thereby affirming its superior accuracy. Following Random Forest, KNN Classification ranks as the second most accurate model with a misclassification rate of 0.029. However, it's important to note that despite its relative accuracy, KNN Classification may not be the most suitable choice for diagnosing breast cancer, as it tends to yield more false negatives than false positives. This inclination towards false negatives could be a significant drawback in medical diagnosis, where missing a positive case could have serious implications. Other than that, the logit model, decision tree model (both pruned and unpruned), lasso model all have similar misclassification rates in the 0.04-0.06 range. 
+This comparison illustrates the misclassification rates of various models, the Logit Model with the variables picked from the backward selection process has yielded the lowest misclassification rate. After that, the Logit Model with the variables picked from the forward selection process and the Random Forest tie at second place. This mirrors the findings from the article "Prediction of Breast Cancer using Machine Learning Approaches." Consistent with the article, the Random Forest model emerges as one of the top performers in this study, exhibiting a misclassification rate of 0.018. KNN Classification ranks as the third most accurate model with a misclassification rate of 0.029. However, it's important to note that despite its relative accuracy, KNN Classification may not be the most suitable choice for diagnosing breast cancer, as it tends to yield more false negatives than false positives. This inclination towards false negatives could be a significant drawback in medical diagnosis, where missing a positive case could have serious implications. Other than that, the logit model, decision tree model (both pruned and unpruned), and lasso model all have similar misclassification rates in the 0.04-0.06 range. 
 
 ### 4.2 Supplementary approaches
 This study incorporated KMeans clustering to group similar data points based on all features. While clustering is not typically employed for accuracy determination in classification, it achieved a remarkably low mean squared error (MSE) of 0.0896. This result suggests a strong correlation between the features and the diagnosis outcome. The clustering exhibited clear separation with minimal overlap, indicating distinct groupings.
