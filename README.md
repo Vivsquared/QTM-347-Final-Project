@@ -2,9 +2,12 @@
 **Authors: Jennifer Jiang, Vivienne Yu**
 
 ## Abstract
-Breast cancer is the second most common cancer among women in the United States, but the diagnostic process can take weeks or months. Because of this situation, we would like to use machine learning models to reduce the diagnostic times. By testing different subset selection models, we have found 13 most effective variables,'concave points_worst', 'radius_worst', 'texture_worst', 'area_worst', 'smoothness_se', 'symmetry_worst', 'compactness_se', 'radius_se', 'fractal_dimension_worst', 'compactness_mean', 'concave points_mean', 'concavity_worst', 'concavity_se', to determine the dependent variable, 'diagonsis'. Then, we applied several machine learning models to see which one leads to the most accurate results and found that Logit Model and Random Forest produced the most accurate prediction for this classication diagnostic prediction project.
+Breast cancer is the second most common cancer among women in the United States, but the diagnostic process can take weeks. Because of this situation, we would like to use machine learning models to reduce the diagnostic times. The dataset we used is a dataset containing characteristics of a breast mass extracted from a breast tumor, that could be cancerous or not. By testing different subset selection models, we have found that the most influential variables on the dependent variable, 'diagnosis' are associated with concavity, compactness, radius, texture, area, and smoothness. Then, we applied several machine learning models to see which one led to the most accurate results and found that the Random Forest produced the most accurate prediction for this classification diagnostic prediction project.
 
 ## Introduction
+For this research, we aim to diagnose breast cancer based on certain features of a breast mass extracted from the tumor to answer two major questions. The first one is what are the most determining features of a breast mass from a breast tumor in the diagnosis of breast cancer and the second one is which machine learning model is the most accurate for this diagnostic prediction. We want to tackle this question since breast cancer is the second most common cancer among women in the United States. About 13%(about 1 in 8) of U.S. women are going to develop invasive breast cancer in the course of their life. However, for a common cancer like this, the diagnosis process for different types (malignant & benign) of breast tumors involves a series of tests and evaluations, and it can take up to 4 weeks. Therefore, we think using machine learning techniques can significantly reduce the time needed for diagnosis, which leads to early treatment for cancer patients. 
+
+
 
 ## 3. Result
 ### 3.1 Main Indications of the Result
@@ -99,7 +102,7 @@ In the machine learning phase, the Decision Tree model exhibited a distinct pref
 ![Decision_Tree](https://github.com/Vivsquared/QTM-347-Final-Project/blob/641a4a1d91c3a9ef80327dd52eacdb8c8573d859/Machine%20Learning%20Models/Decision%20Tree.png)
 
 
-This divergence in predictor selection between the forward/backward subset methods and Decision Trees could be attributed to the linear structure and multicollinearity sensitivity of the subset selection. In contrast, Decision Trees, as non-linear models, prioritize the efficacy of feature splitting, enabling them to discern more complex relationships and minimize the impact of multicollinearity. Hence, the perimeter, though often excluded in subset models due to high multicollinearity with the radius, is deemed vital in the Decision Tree model. The tuned Lasso model retained most predictors, excluding only four features with coefficient equals to 0, and still achieved a notably low mean squared error (0.054).
+This divergence in predictor selection between the forward/backward subset methods and Decision Trees could be attributed to the linear structure and multicollinearity sensitivity of the subset selection. In contrast, Decision Trees, as non-linear models, prioritize the efficacy of feature splitting, enabling them to discern more complex relationships and minimize the impact of multicollinearity. Hence, the perimeter, though often excluded in subset models due to high multicollinearity with the radius, is deemed vital in the Decision Tree model. The tuned Lasso model retained most predictors, excluding only four features with coefficients equals to 0, and still achieved a notably low mean squared error (0.054).
 ```
                 Column Name  Coefficient
 0               radius_mean    -0.000634
