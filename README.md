@@ -95,13 +95,15 @@ strong multicollinearity or other numerical problems.
 
 However, variables such as perimeter and symmetry were not generally considered, possibly due to data multicollinearity (notably between perimeter and radius).
 In the machine learning phase, the Decision Tree model exhibited a distinct preference for variables labeled as “worst,” with “perimeter_worst” emerging as the most critical feature. 
+![Decision_Tree](https://github.com/Vivsquared/QTM-347-Final-Project/blob/641a4a1d91c3a9ef80327dd52eacdb8c8573d859/Machine%20Learning%20Models/Decision%20Tree.png)
+
 
 This divergence in predictor selection between the forward/backward subset methods and Decision Trees could be attributed to the linear structure and multicollinearity sensitivity of the subset selection. In contrast, Decision Trees, as non-linear models, prioritize the efficacy of feature splitting, enabling them to discern more complex relationships and minimize the impact of multicollinearity. Hence, the perimeter, though often excluded in subset models due to high multicollinearity with the radius, is deemed vital in the Decision Tree model. The tuned Lasso model retained most predictors, excluding only four features, and still achieved a notably low mean squared error (0.054). This suggests a general correlation between diagnosis and all predictors, notwithstanding the detected multicollinearity.
 Cross validation: 
 
 ### 3.2 Supplementary approaches
 This study incorporated KMeans clustering to group similar data points based on all features. While clustering is not typically employed for accuracy determination in classification, it achieved a remarkably low mean squared error (MSE) of 0.0896. This result suggests a strong correlation between the features and the diagnosis outcome. The clustering exhibited clear separation with minimal overlap, indicating distinct groupings.
-![image](https://github.com/Vivsquared/QTM-347-Final-Project/blob/1612a44815676a7fe4100e85896c63b22a463501/KMeans%20Clustering/clustering%20Image.png)
+![KMeans_Clustering](https://github.com/Vivsquared/QTM-347-Final-Project/blob/1612a44815676a7fe4100e85896c63b22a463501/KMeans%20Clustering/clustering%20Image.png)
 Consequently, the machine learning models employed were either based on the number of variables identified by subset selection or utilized all predictors. Each model slightly varied in the type of predictors used to enhance accuracy, but effective models consistently involved approximately 13 predictors or the entire set of predictors.
 
 ## 4. Discussion
