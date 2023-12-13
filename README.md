@@ -1,10 +1,11 @@
 # Diagnostic Prediction - Breast Cancer 
 **Authors: Jennifer Jiang, Vivienne Yu**
 
-## Abstract
+## 1. Abstract
 Breast cancer is the second most common cancer among women in the United States, but the diagnostic process can take weeks. Because of this situation, we would like to use machine learning models to reduce the diagnostic times. The dataset we used is a dataset containing characteristics of a breast mass extracted from a breast tumor, that could be cancerous or not. By testing different subset selection models, we have found that the most influential variables on the dependent variable, 'diagnosis' are associated with concavity, compactness, radius, texture, area, and smoothness. Then, we applied several machine learning models to see which one led to the most accurate results and found that the Random Forest produced the most accurate prediction for this classification diagnostic prediction project.
 
-## Introduction
+## 2. Introduction
+### 2.1 Problems and Motivations
 For this research, we aim to diagnose breast cancer based on certain features of a breast mass extracted from the tumor to answer two major questions. The first one is what are the most determining features of a breast mass from a breast tumor in the diagnosis of breast cancer and the second one is which machine learning model is the most accurate for this diagnostic prediction. We want to tackle this question since breast cancer is the second most common cancer among women in the United States. About 13%(about 1 in 8) of U.S. women are going to develop invasive breast cancer in the course of their life. However, for a common cancer like this, the diagnosis process for different types (malignant & benign) of breast tumors involves a series of tests and evaluations, and it can take up to 4 weeks. Therefore, we think using machine learning techniques can significantly reduce the time needed for diagnosis, which leads to early treatment for cancer patients. 
 
 
