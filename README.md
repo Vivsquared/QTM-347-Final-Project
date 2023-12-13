@@ -95,7 +95,7 @@ This is a heatmap for all the worst value variables and diagnosis. There are som
 <details>
 
 <summary>Backward Selection</summary>
-<br>Backwardd selection is a stepwise subset selection. The backward selection start with all predictors and take away predictors from the model one at once. The stepwise selecion is devided into 4 steps: the first step is when there is p prdictors; the second step is by fitting in p models with p-1 predictors and select the best model; the third and fourth step is by fitting in p-n predictors based on the predictors fitted in previously. In each step, best is defined as having smallest RSS/MSE or highest R squared. In general, backward stepwise selection is applicable to low-dimensional settings, and backward selection is not returning same result as forward selection.
+<br>Backward selection is a stepwise subset selection. The backward selection start with all predictors and take away predictors from the model one at once. The stepwise selecion is devided into 4 steps: the first step is when there is p prdictors; the second step is by fitting in p models with p-1 predictors and select the best model; the third and fourth step is by fitting in p-n predictors based on the predictors fitted in previously. In each step, best is defined as having smallest RSS/MSE or highest R squared. In general, backward stepwise selection is applicable to low-dimensional settings, and backward selection is not returning same result as forward selection.
 
 <br>For this study, the ultimate predictors for backward selection is set to 13 in the end. 
 
@@ -106,7 +106,9 @@ This is a heatmap for all the worst value variables and diagnosis. There are som
 <summary>Lasso</summary>
   
 </details>
+<br> Lasso stands for the least absolute shrinkage and selection operator. It has the capability to perform variable selection. When lambda is larger than or equal to 0, lasso tunes the hyper parameter. Lasso minimizes: $$ \sum_{i} (y_i - \beta_0 - \sum_{j} \beta_j \cdot x_{ij})^2 + \lambda \cdot \sum_{j} |\beta_j| $$. Lasso has a high shrinkage penalty, while for multiple parameters shrinkage penalty \lambda does not apply to \beta_0. As \lambda increases, lasso select less variables. Lasso path is considered as different coefficient values by varying \lambda.
 
+<br> Based on the \lambda selected by the lasso, the ultimate predictor used for lasso is 26 predictors based on the coefficience (considering coefficience shrink to 0). 
 <details>
 
 <summary>KNN Model</summary>
