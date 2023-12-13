@@ -105,10 +105,10 @@ This is a heatmap for all the worst value variables and diagnosis. There are som
 
 <summary>Lasso</summary>
 <br> Lasso stands for the least absolute shrinkage and selection operator. It has the capability to perform variable selection. When lambda is larger than or equal to 0, lasso tunes the hyper parameter. Lasso minimizes: 
-$\sum_{i} (y_i - \beta_0 - \sum_{j} \beta_j \cdot x_{ij})^2 + \lambda \cdot \sum_{j} |\beta_j|$
-Lasso has a high shrinkage penalty, while for multiple parameters shrinkage penalty $\lambda$ does not apply to \beta_0. As $\lambda $ increases, lasso select less variables. Lasso path is considered as different coefficient values by varying $\lambda$.
+$\sum_{i} (y_i - \beta_0 - \sum_{j} \beta_j \cdot x_{ij})^2 + \lambda \cdot \sum_{j} |\beta_j|$ . 
+Lasso has a high shrinkage penalty, while for multiple parameters shrinkage penalty $\lambda$ does not apply to \beta_0. As $\lambda$ increases, lasso select less variables. Lasso path is considered as different coefficient values by varying $\lambda$.
 
-<br> Based on the \lambda selected by the lasso, the ultimate predictor used for lasso is 26 predictors based on the coefficience (considering coefficience shrink to 0). 
+<br> Based on the $\lambda$ selected by the lasso, the ultimate predictor used for lasso is 26 predictors based on the coefficience (considering coefficience shrink to 0). 
 </details>
 
 <details>
