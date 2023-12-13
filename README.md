@@ -51,8 +51,52 @@ Notes:
 [2] The condition number is large, 4.67e+05. This might indicate that there are
 strong multicollinearity or other numerical problems.
 ```
-For backward selection, the predictors were: compactness_mean, concave_points_mean, radius_se, smoothness_se, concavity_se, concave_points_se, radius_worst, texture_worst, area_worst, concavity_worst, symmetry_worst, and fractal_dimension_worst. The eleven common variables identified are associated with concavity, compactness, radius, texture, area, and smoothness. However, variables such as perimeter and symmetry were not generally considered, possibly due to data multicollinearity (notably between perimeter and radius).
-In the machine learning phase, the Decision Tree model exhibited a distinct preference for variables labeled as “worst,” with “perimeter_worst” emerging as the most critical feature. This divergence in predictor selection between the forward/backward subset methods and Decision Trees could be attributed to the linear structure and multicollinearity sensitivity of the subset selection. In contrast, Decision Trees, as non-linear models, prioritize the efficacy of feature splitting, enabling them to discern more complex relationships and minimize the impact of multicollinearity. Hence, the perimeter, though often excluded in subset models due to high multicollinearity with the radius, is deemed vital in the Decision Tree model. The tuned Lasso model retained most predictors, excluding only four features, and still achieved a notably low mean squared error (0.054). This suggests a general correlation between diagnosis and all predictors, notwithstanding the detected multicollinearity.
+For backward selection, the predictors were: compactness_mean, concave_points_mean, radius_se, smoothness_se, concavity_se, concave_points_se, radius_worst, texture_worst, area_worst, concavity_worst, symmetry_worst, and fractal_dimension_worst. The eleven common variables identified are associated with concavity, compactness, radius, texture, area, and smoothness. 
+```
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:              diagnosis   R-squared:                       0.769
+Model:                            OLS   Adj. R-squared:                  0.764
+Method:                 Least Squares   F-statistic:                     154.6
+Date:                Wed, 13 Dec 2023   Prob (F-statistic):          3.04e-168
+Time:                        04:22:49   Log-Likelihood:                 23.483
+No. Observations:                 569   AIC:                            -20.97
+Df Residuals:                     556   BIC:                             35.50
+Df Model:                          12                                         
+Covariance Type:            nonrobust                                         
+===========================================================================================
+                              coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------------
+const                       3.2010      0.174     18.443      0.000       2.860       3.542
+co0pactness_0ean            3.4311      0.553      6.205      0.000       2.345       4.517
+concave points_0ean        -4.3313      0.907     -4.777      0.000      -6.112      -2.550
+radius_se                  -0.2445      0.068     -3.591      0.000      -0.378      -0.111
+s0oothness_se             -19.6846      4.351     -4.524      0.000     -28.231     -11.139
+concavity_se                3.3763      0.735      4.596      0.000       1.933       4.819
+concave points_se          -8.6074      3.338     -2.578      0.010     -15.165      -2.050
+radius_worst               -0.1329      0.014     -9.199      0.000      -0.161      -0.105
+texture_worst              -0.0107      0.002     -5.889      0.000      -0.014      -0.007
+area_worst                  0.0008      0.000      7.313      0.000       0.001       0.001
+concavity_worst            -0.6867      0.144     -4.778      0.000      -0.969      -0.404
+sy00etry_worst             -0.8979      0.207     -4.343      0.000      -1.304      -0.492
+fractal_di0ension_worst    -4.0741      1.089     -3.740      0.000      -6.213      -1.935
+==============================================================================
+Omnibus:                       24.208   Durbin-Watson:                   1.764
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               26.210
+Skew:                          -0.520   Prob(JB):                     2.03e-06
+Kurtosis:                       3.161   Cond. No.                     4.71e+05
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 4.71e+05. This might indicate that there are
+strong multicollinearity or other numerical problems.
+```
+
+However, variables such as perimeter and symmetry were not generally considered, possibly due to data multicollinearity (notably between perimeter and radius).
+In the machine learning phase, the Decision Tree model exhibited a distinct preference for variables labeled as “worst,” with “perimeter_worst” emerging as the most critical feature. 
+
+This divergence in predictor selection between the forward/backward subset methods and Decision Trees could be attributed to the linear structure and multicollinearity sensitivity of the subset selection. In contrast, Decision Trees, as non-linear models, prioritize the efficacy of feature splitting, enabling them to discern more complex relationships and minimize the impact of multicollinearity. Hence, the perimeter, though often excluded in subset models due to high multicollinearity with the radius, is deemed vital in the Decision Tree model. The tuned Lasso model retained most predictors, excluding only four features, and still achieved a notably low mean squared error (0.054). This suggests a general correlation between diagnosis and all predictors, notwithstanding the detected multicollinearity.
 Cross validation: 
 
 ### 3.2 Supplementary approaches
