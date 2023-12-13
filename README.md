@@ -2,18 +2,27 @@
 **Authors: Jennifer Jiang, Vivienne Yu**
 
 ## 1. Abstract
-Breast cancer ranks as the second most prevalent cancer among women in the United States. The current diagnostic process is often protracted, spanning several weeks. In an effort to expedite this critical diagnostic phase, we have explored the application of machine learning models. Our study utilizes a comprehensive dataset comprising attributes of breast masses, derived from breast tumors, which may or may not be cancerous. Through rigorous examination of various subset selection models, we identified the most impactful predictors for the 'diagnosis' outcome. These key variables are associated with concavity, compactness, radius, texture, area, and smoothness. Subsequently, we assessed a range of machine learning models to determine the one yielding the highest accuracy. Our findings reveal that the Random Forest model excels in predicting diagnoses, thereby offering a promising approach for enhancing the efficiency and accuracy of breast cancer diagnosis.
+Breast cancer ranks as the second most prevalent cancer among women in the United States. The current diagnostic process is often protracted, spanning several weeks. In an effort to expedite this critical diagnostic phase, the study have explored the application of machine learning models. It utilizes a comprehensive dataset comprising attributes of breast masses, derived from breast tumors, which may or may not be cancerous. Through rigorous examination of various subset selection models, the most impactful predictors are identified for the 'diagnosis' outcome. These key variables are associated with concavity, compactness, radius, texture, area, and smoothness. Subsequently, the study assessed a range of machine learning models to determine the one yielding the highest accuracy. The findings reveal that the random forest model excels in predicting diagnoses, thereby offering a promising approach for enhancing the efficiency and accuracy of breast cancer diagnosis.
 
 ## 2. Introduction
 ### 2.1 Problems and Motivations
-For this research, we aim to diagnose breast cancer based on certain features of a breast mass extracted from the tumor to answer two major questions. The first one is what are the most determining features of a breast mass from a breast tumor in the diagnosis of breast cancer and the second one is which machine learning model is the most accurate for this diagnostic prediction. We want to tackle this question since breast cancer is the second most common cancer among women in the United States. About 13%(about 1 in 8) of U.S. women are going to develop invasive breast cancer in the course of their life. However, for a common cancer like this, the diagnosis process for different types (malignant & benign) of breast tumors involves a series of tests and evaluations, and it can take up to 4 weeks. Therefore, we think using machine learning techniques can significantly reduce the time needed for diagnosis, which leads to early treatment for cancer patients. 
+This study aims to diagnose breast cancer based on specific features of a breast mass extracted from tumors, addressing two primary questions. The first concerns identifying the most determinative features of a breast mass from a tumor in breast cancer diagnosis. The second question investigates which machine learning model yields the highest accuracy for such diagnostic prediction. This inquiry is pertinent given that breast cancer is the second most common cancer among women in the United States, with approximately 13% (about 1 in 8) of U.S. women expected to develop invasive breast cancer during their lifetime. Notably, for a prevalent cancer like this, the diagnostic process for different types (malignant & benign) of breast tumors typically involves a series of tests and evaluations, potentially extending up to four weeks. Consequently, the study posits that employing machine learning techniques could significantly reduce the diagnosis timeframe, thereby facilitating earlier treatment for cancer patients.
 
 ### 2.2 Approaches
-Since we have two problems we want to investigate, we will split and approach them differently. For determining the most important features in the breast cancer diagnosis process, we will use forward and backward selection 
+Since the study investigates two distinct problems, it will bifurcate and approach them uniquely. To determine the most critical features in the breast cancer diagnosis process, the study will employ forward, backward selection, and lasso techniques. The aim is to compare whether the results derived from each method align or differ. Additionally, the study will juxtapose these findings with the ranked important features as identified by the Random Forest model. The selection of these methods is informed by their academic exploration in class, coupled with the belief that they will likely yield similar features of importance.
 
-## 3. Result
-### 3.1 Main Indications of the Result
-This study comprises three distinct sections to determine breast tumor types and the presence of breast cancer: subset selection, machine learning methodology, and cross-validation.
+To identify the most effective machine learning models for diagnosing breast cancer, this study will evaluate a diverse array of models. These include KNN (K-Nearest Neighbors) classification, logistic regression (logit model), decision tree classification, random forest, and KMeans clustering, which will be included in the supplementary approach section. The logistic regression model is a parametric model, while KNN classification, decision tree classification, and random forest are non-parametric models. Parametric models are typically more suited to smaller datasets due to their reliance on predefined forms, whereas non-parametric models excel in handling high-dimensional data due to their flexibility in model structure. This contrast makes it intriguing to compare the outcomes from both model types.
+
+According to the research "Prediction of Breast Cancer using Machine Learning Approaches" conducted by the National Center for Biotechnology Information, the random forest model was identified as the most accurate among all tested models. Consequently, it is anticipated that the random forest model will also demonstrate superior performance in this study.
+
+## 3. Setup
+### 3.1 Dataset
+### 3.2 Experimental setup 
+### 3.3 Problem Setup
+
+## 4. Results
+### 4.1 Main Indications of the Result
+This study comprises two distinct sections to determine breast tumor types and the presence of breast cancer: subset selection, machine learning methodology with cross validation.
 
 <br> The study employed two subset selection methods: forward selection and backward selection. Forward selection is typically used when the number of predictors exceeds the number of samples, whereas backward selection is preferred when the sample size surpasses the number of predictors. Given our dataset of approximately 500 samples and 30 predictors, backward selection was initially applied. However, due to the relatively large number of predictors and limited sample size, and considering our extensive set of covariates, forward selection was deemed more beneficial (Bursac, 2008). The effectiveness of predictors in subset selection was evaluated based on R-squared values and P-values, with a higher R-squared and a P-value under 0.05 as the criteria for effective predictor selection. Consequently, the predictors chosen for forward selection included: concave_points_worst, radius_worst, texture_worst, area_worst, smoothness_se, symmetry_worst, compactness_se, radius_se, fractal_dimension_worst, compactness_mean, concave_points_mean, concavity_worst, and concavity_se.
 ```
@@ -149,21 +158,23 @@ This suggests a general correlation between diagnosis and all predictors, notwit
 <br> 
 Cross validation: 
 
-### 3.2 Supplementary approaches
+### 4.2 Supplementary approaches
 This study incorporated KMeans clustering to group similar data points based on all features. While clustering is not typically employed for accuracy determination in classification, it achieved a remarkably low mean squared error (MSE) of 0.0896. This result suggests a strong correlation between the features and the diagnosis outcome. The clustering exhibited clear separation with minimal overlap, indicating distinct groupings.
 ![KMeans_Clustering](https://github.com/Vivsquared/QTM-347-Final-Project/blob/1612a44815676a7fe4100e85896c63b22a463501/KMeans%20Clustering/clustering%20Image.png)
 Consequently, the machine learning models employed were either based on the number of variables identified by subset selection or utilized all predictors. Each model slightly varied in the type of predictors used to enhance accuracy, but effective models consistently involved approximately 13 predictors or the entire set of predictors.
 
 <br> Clustering MSE: 0.090
 
-## 4. Discussion
+## 5. Discussion
 Our study achieved high accuracy in tumor type prediction. Using the same dataset, a previous approach combined with an image-based dataset achieved a 75.52% accuracy rate without data filtering (Tan, 2020). In contrast, all methods in our study maintained accuracy rates above 90%. Both studies used 10-fold cross-validation, with the decision tree approach showing similarities. The accuracy discrepancy can be attributed to differences in predictor selection and the integration of imaging data in the Southern University of Science and Technology study. Tan's approach on accuracy based on the ratio of true and false positives, differing from our MSE-based calculation. Given that Tan’s coevolutionary neural network reached 88% accuracy before filtering the data, and considering the efficacy of resample filtering in enhancing accuracy in Tan’s study, these strategies could further improve our research.
 
-## 5. Conclusion
+## 6. Conclusion
 Our study leverages Wisconsin’s open dataset on breast cancer, exploring a combination of clustering and classification methods alongside subset selection for predictor determination — an approach not previously undertaken. Focused on selecting effective variables for accurate tumor type prediction, the study signifies a milestone in breast cancer risk assessment and diagnostic speed enhancement. It involved two researchers: Researcher 1 handled subset selection and clustering, while Researcher 2 focused on the machine learning approach and cross-validation, and both researcher consistantly aims to enhance the accuracy of the prediction. The study's success in predicting tumor type underscores its potential impact on breast cancer diagnostics.
 
-## 6. References
+## 7. References
 Bursac Z, Gauss CH, Williams DK, Hosmer DW. Purposeful selection of variables in logistic regression. Source Code Biol Med. 2008 Dec 16;3:17. doi: 10.1186/1751-0473-3-17. PMID: 19087314; PMCID: PMC2633005.
 
 Mohammed SA, Darrab S, Noaman SA, Saake G. Analysis of Breast Cancer Detection Using Different Machine Learning Techniques. Data Mining and Big Data. 2020 Jul 11;1234:108–17. doi: 10.1007/978-981-15-7205-0_10. PMCID: PMC7351679.
+
+Rabiei R, Ayyoubzadeh SM, Sohrabei S, Esmaeili M, Atashi A. Prediction of Breast Cancer using Machine Learning Approaches. J Biomed Phys Eng. 2022 Jun 1;12(3):297-308. doi: 10.31661/jbpe.v0i0.2109-1403. PMID: 35698545; PMCID: PMC9175124.
 
