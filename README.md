@@ -17,14 +17,132 @@ According to the research "Prediction of Breast Cancer using Machine Learning Ap
 
 ## 3. Setup
 ### 3.1 Dataset
-### 3.2 Experimental setup 
-### 3.3 Problem Setup
+The dataset used for this research is called the Breast Cancer Wisconsin (Diagnostic) Dataset collected and published by UCI Machine Learning Repository. The dataset contains a total of 30 different features that are computed from a digitized image of a fine needle aspirate (FNA) of a breast mass extracted from the tumor, and they describe characteristics of the cell nuclei present in the image below. 
+![Fine needle aspirate of a breast mass](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/FNA%20image.png)
 
+The dataset features a categorical column labeled 'diagnosis', where 'M' denotes malignant (cancerous tumors) and 'B' indicates benign (non-cancerous tumors). For analytical purposes, this variable will be transformed into a binary format, with 1 representing malignant and 0 representing benign. Additionally, the dataset includes a column that is empty and another containing patient IDs; both of these will be omitted from the analysis to ensure data integrity and privacy. The table below enumerates all 30 features along with the response variable, diagnosis.
+
+| Variable Name          | Description                                                     | Data Type    |
+|------------------------|-----------------------------------------------------------------|--------------|
+| diagnosis              | The diagnosis of breast tissues (M = malignant, B = benign)     | Categorical  |
+| radius_mean            | mean of distances from center to points on the perimeter        | Numeric      |
+| texture_mean           | standard deviation of gray-scale values                         | Numeric      |
+| perimeter_mean         | mean size of the core tumor                                     | Numeric      |
+| area_mean              | mean area of the core tumor                                     | Numeric      |
+| smoothness_mean        | mean of local variation in radius lengths                       | Numeric      |
+| compactness_mean       | mean of perimeter^2 / area - 1.0                                | Numeric      |
+| concavity_mean         | mean of severity of concave portions of the contour             | Numeric      |
+| concave points_mean    | mean for number of concave portions of the contour              | Numeric      |
+| symmetry_mean          | mean of the symmetryness                                        | Numeric      |
+| fractal_dimension_mean | mean for "coastline approximation" - 1                          | Numeric      |
+| radius_se            | standard error for the mean of distances from center to points on the perimeter        | Numeric      |
+| texture_se           | standard error for standard deviation of gray-scale values                         | Numeric      |
+| perimeter_se         | standard error for mean size of the core tumor                                     | Numeric      |
+| area_se              | standard error for mean area of the core tumor                                     | Numeric      |
+| smoothness_se        | standard error for local variation in radius lengths                       | Numeric      |
+| compactness_se       | standard error for perimeter^2 / area - 1.0                                | Numeric      |
+| concavity_se         | standard error for severity of concave portions of the contour             | Numeric      |
+| concave points_se    | standard error for number of concave portions of the contour              | Numeric      |
+| symmetry_se          | standard error the symmetryness                                        | Numeric      |
+| fractal_dimension_se | standard error for "coastline approximation" - 1                          | Numeric      |
+| radius_worst            | "worst" or largest mean value for mean of distances from center to points on the perimeter        | Numeric      |
+| texture_worst           | "worst" or largest mean value for standard deviation of gray-scale values                         | Numeric      |
+| perimeter_worst         | "worst" or largest mean value for size of the core tumor                                     | Numeric      |
+| area_worst              | "worst" or largest mean value for area of the core tumor                                     | Numeric      |
+| smoothness_worst        | "worst" or largest mean value for local variation in radius lengths                       | Numeric      |
+| compactness_worst       | "worst" or largest mean value for perimeter^2 / area - 1.0                                | Numeric      |
+| concavity_worst         | "worst" or largest mean value for severity of concave portions of the contour             | Numeric      |
+| concave points_worst    | "worst" or largest mean value for number of concave portions of the contour              | Numeric      |
+| symmetry_worst          | "worst" or largest mean value for the symmetryness                                        | Numeric      |
+| fractal_dimension_worst | "worst" or largest mean value for "coastline approximation" - 1                          | Numeric      |
+
+There are a total of 569 observations. With 357 malignant and 212 benign.
+![Distribution plot for diagnosis](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Explorative%20Data%20Analysis/Distribution%20of%20Diagnosis.png)
+
+This is a heatmap for all the mean variables and diagnosis. 
+- 'radius_worst', 'perimeter_worst', 'area_worst', 'concave points_worst' have high correlations with 'diagnosis', suggesting that they are strong indicators for predicting the malignancy of a tumor.
+- The features themselves are also correlated with each other. For example, 'radius_worst' has a very high correlation with 'perimeter_worst' and 'area_worst', which makes sense as larger radii typically lead to larger perimeters and areas.
+![heatmap for all the mean variables](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Explorative%20Data%20Analysis/Mean%20Variables%20Heatmap.png)
+
+This is a heatmap for all the standard error variables and diagnosis. The correlations between standard error variables and diagnosis are weak. The standard error of area-related variables are highly correlated with each other. The standard error of compactness is also highly correlated with the standard error of concavity.
+- 'radius_se' has a moderate positive correlation with diagnosis (0.57), which might suggest that larger standard error of the radius measurement is associated with malignancy. Conversely, 'texture_se' shows virtually no correlation with diagnosis (-0.01), indicating that the standard error of the texture measurement might not be a good predictor of malignancy.
+- Values closer to zero or negative (blues) indicate a weaker relationship. For example, 'smoothness_se' has a slight negative correlation with diagnosis (-0.07), which suggests that as the standard error of the smoothness measurement increases, the likelihood of a malignant diagnosis decreases slightly.
+- The heatmap also shows how each of the SE variables correlates with one another. For instance, 'perimeter_se' and 'area_se' have a very high positive correlation (0.94), which is expected because the perimeter and area measurements are related geometrically. 
+![heatmap for all the standard error variables](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Explorative%20Data%20Analysis/SE%20Variables%20Heatmap.png)
+
+This is a heatmap for all the worst value variables and diagnosis. There are some strong correlations between worst value variables and diagnosis and with each others. radius_worst, perimeter_worst, area_worst, concave points_worst are strongly correlated with diagnosis.
+- 'radius_mean' (0.73), 'perimeter_mean' (0.74), 'area_mean' (0.71), 'concavity_mean' (0.70), and 'concave points_mean' (0.78) have strong positive correlations with the diagnosis, suggesting that larger mean values of these variables are associated with a cancerous diagnosis ('M' for malignant).
+- The heatmap shows high correlations between several pairs of features, such as 'radius_mean' with 'perimeter_mean' and 'area_mean', which is expected because these geometric measurements are related to each other.
+- 'fractal_dimension_mean' has very low correlations with most other variables, suggesting it provides unique information not linearly related to the other measurements.
+- 'fractal_dimension_mean' has a slight negative correlation with 'radius_mean' (-0.31), 'perimeter_mean' (-0.26), and 'area_mean' (-0.28), indicating that as the mean fractal dimension increases, the mean values of radius, perimeter, and area tend to decrease slightly.
+![heatmap for all the worst value variables](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Explorative%20Data%20Analysis/Worst%20Variables%20Heatmap.png)
+
+### 3.2 Model & Parameter setup 
+
+**All models are ran using Python 3 on the Jupyter Notebook environment.**
+
+**For this study, the dataset will be splited into 70% training set and 30% testing set.**
+
+<details>
+
+<summary>Forward Selection</summary>
+  
+</details>
+
+<details>
+
+<summary>Backward Selection</summary>
+  
+</details>
+
+<details>
+
+<summary>Lasso</summary>
+  
+</details>
+
+<details>
+
+<summary>KNN Model</summary>
+<br> K-Nearest Neighbors (KNN) classification is a non-parametric method. The output is a class membership. An object is classified by a majority vote of its neighbors, with the object being assigned to the class most common among its k nearest neighbors (k is a positive integer, typically small). If k=1, then the object is simply assigned to the class of that single nearest neighbor. The KNN classifier assumes that similar things exist in close proximity. In other words, similar data points are near to each other in the feature space.
+
+<br> Before performing the KNN model, all the data for the dependent variables will be scale using StandardScaler in preventing features with larger magnitudes from dominating the distance calculations. In terms of optimization, 10-fold cross validation is used to find the best optimal k. 
+
+</details>
+
+<details>
+
+<summary>Logit Model</summary>
+<br> Logit Model is a parametric statistical method that models the probability of a binary outcome based on one or more predictor variables. It is a type of regression analysis that is appropriate for predicting the outcome of a categorical dependent variable, particularly when the dependent variable is binary—meaning it has only two possible outcomes (in this case, "Malignant" vs "Benign"). The probability of the outcome is modeled using the logistic function, which is an S-shaped curve that can take any real-valued number and map it into a value between 0 and 1. 
+
+<br> The threshold for the logit model used in this study is set to 0.5, meaning any value greater than 0.5 will set to 1, malignant, and any value smaller than 0.5 will set to 0, benign. 
+
+</details>
+
+<details>
+
+<summary>Decision Tree Model</summary>
+<br> Decision tree classification is a supervised machine learning algorithm used to categorize data into classes based on the values of input features. It takes the form of a tree structure. It consists of nodes, branches, and leaves, where each internal node denotes a test on an attribute, each branch represents an outcome of the test, and each leaf node holds a class label. The topmost node in a decision tree is known as the root node. It is from this node that the dataset is divided into subsets, which then form the basis of the branches connected to the node. This process of dividing is based on a set of decision rules derived from the data attributes.
+
+<br> For this study, the criterion of the decision tree model is set to entropy. It will be fitted without a max_depth parameter, then it will be pruned to be optimized.
+</details>
+
+<details>
+
+<summary>Random Forest</summary>
+<br> Random Forest classification is a supervised machine learning algorithm that builds upon the concept of decision tree classification by creating an ensemble of trees using bagging method to improve prediction accuracy and control over-fitting. When fitting the tree, a random subset of *m&ltp* predictors are use and it will lead to very different trees from each sample. Finally, the prediction for each tree is averaged to get the result.
+
+<br> For this study, a random forest model is built and tested for different combination of parameters, 'n_estimators': [50, 100, 150, 200, 250],'max_features': range(1, 31), 'min_samples_split': [2, 5, 10, 15], to get the most optimized model and accurate predication.
+
+</details>
+  
 ## 4. Results
 ### 4.1 Main Indications of the Result
 This study comprises two distinct sections to determine breast tumor types and the presence of breast cancer: subset selection, machine learning methodology with cross validation.
 
-<br> The study employed two subset selection methods: forward selection and backward selection. Forward selection is typically used when the number of predictors exceeds the number of samples, whereas backward selection is preferred when the sample size surpasses the number of predictors. Given our dataset of approximately 500 samples and 30 predictors, backward selection was initially applied. However, due to the relatively large number of predictors and limited sample size, and considering our extensive set of covariates, forward selection was deemed more beneficial (Bursac, 2008). The effectiveness of predictors in subset selection was evaluated based on R-squared values and P-values, with a higher R-squared and a P-value under 0.05 as the criteria for effective predictor selection. Consequently, the predictors chosen for forward selection included: concave_points_worst, radius_worst, texture_worst, area_worst, smoothness_se, symmetry_worst, compactness_se, radius_se, fractal_dimension_worst, compactness_mean, concave_points_mean, concavity_worst, and concavity_se.
+<br> The study employed two subset selection methods: forward selection and backward selection. 
+
+Forward selection is typically used when the number of predictors exceeds the number of samples, whereas backward selection is preferred when the sample size surpasses the number of predictors. Given our dataset of approximately 500 samples and 30 predictors, backward selection was initially applied. However, due to the relatively large number of predictors and limited sample size, and considering our extensive set of covariates, forward selection was deemed more beneficial (Bursac, 2008). The effectiveness of predictors in subset selection was evaluated based on R-squared values and P-values, with a higher R-squared and a P-value under 0.05 as the criteria for effective predictor selection. Consequently, the predictors chosen for forward selection included: concave_points_worst, radius_worst, texture_worst, area_worst, smoothness_se, symmetry_worst, compactness_se, radius_se, fractal_dimension_worst, compactness_mean, concave_points_mean, concavity_worst, and concavity_se.
 ```
                             OLS Regression Results                            
 ==============================================================================
@@ -66,7 +184,9 @@ Notes:
 [2] The condition number is large, 4.67e+05. This might indicate that there are
 strong multicollinearity or other numerical problems.
 ```
-For backward selection, the predictors were: compactness_mean, concave_points_mean, radius_se, smoothness_se, concavity_se, concave_points_se, radius_worst, texture_worst, area_worst, concavity_worst, symmetry_worst, and fractal_dimension_worst. The eleven common variables identified are associated with concavity, compactness, radius, texture, area, and smoothness. 
+
+For backward selection, the predictors were: compactness_mean, concave_points_mean, radius_se, smoothness_se, concavity_se, concave_points_se, radius_worst, texture_worst, area_worst, concavity_worst, symmetry_worst, and fractal_dimension_worst. The eleven common variables identified are associated with concavity, compactness, radius, texture, area, and smoothness.
+
 ```
                             OLS Regression Results                            
 ==============================================================================
@@ -157,6 +277,8 @@ This suggests a general correlation between diagnosis and all predictors, notwit
 
 <br> 
 Cross validation: 
+
+<br>
 
 ### 4.2 Supplementary approaches
 This study incorporated KMeans clustering to group similar data points based on all features. While clustering is not typically employed for accuracy determination in classification, it achieved a remarkably low mean squared error (MSE) of 0.0896. This result suggests a strong correlation between the features and the diagnosis outcome. The clustering exhibited clear separation with minimal overlap, indicating distinct groupings.
