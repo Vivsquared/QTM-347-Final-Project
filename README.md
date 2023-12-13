@@ -152,6 +152,7 @@ This study comprises two distinct sections to determine breast tumor types and t
 
 <br> The study employed two subset selection methods: forward selection and backward selection. 
 
+#### 4.1.1 Forward Selection
 Forward selection is typically used when the number of predictors exceeds the number of samples, whereas backward selection is preferred when the sample size surpasses the number of predictors. Given our dataset of approximately 500 samples and 30 predictors, backward selection was initially applied. However, due to the relatively large number of predictors and limited sample size, and considering our extensive set of covariates, forward selection was deemed more beneficial (Bursac, 2008). The effectiveness of predictors in subset selection was evaluated based on R-squared values and P-values, with a higher R-squared and a P-value under 0.05 as the criteria for effective predictor selection. Consequently, the predictors chosen for forward selection included: concave_points_worst, radius_worst, texture_worst, area_worst, smoothness_se, symmetry_worst, compactness_se, radius_se, fractal_dimension_worst, compactness_mean, concave_points_mean, concavity_worst, and concavity_se.
 ```
                             OLS Regression Results                            
@@ -195,6 +196,7 @@ Notes:
 strong multicollinearity or other numerical problems.
 ```
 
+#### 4.1.2 Backward Selection
 For backward selection, the predictors were: compactness_mean, concave_points_mean, radius_se, smoothness_se, concavity_se, concave_points_se, radius_worst, texture_worst, area_worst, concavity_worst, symmetry_worst, and fractal_dimension_worst. The eleven common variables identified are associated with concavity, compactness, radius, texture, area, and smoothness.
 
 ```
@@ -238,20 +240,27 @@ Notes:
 strong multicollinearity or other numerical problems.
 ```
 
+#### 4.1.3 Decision Tree
+
 <br> However, variables such as perimeter and symmetry were not generally considered, possibly due to data multicollinearity (notably between perimeter and radius).
 In the machine learning phase, the Decision Tree model exhibited a distinct preference for variables labeled as “worst,” with “radius_worst” emerging as the most critical feature. 
 ![Decision_Tree](https://github.com/Vivsquared/QTM-347-Final-Project/blob/ccf7524f7208582e0ad411ababd9a40cb31d2b13/Machine%20Learning%20Models/Decision%20Tree.png)
 
-After the pruning, the decision tree gains a higher accuracy with with “radius_worst” and other variables labeled as "worst" remains as the critical features.
+After the pruning, the decision tree gains a higher accuracy with “radius_worst” and other variables labeled as "worst" remain as the critical features.
 ![Pruned_Tree](https://github.com/Vivsquared/QTM-347-Final-Project/blob/ccf7524f7208582e0ad411ababd9a40cb31d2b13/Machine%20Learning%20Models/pruned%20tree.png)
 
 <br> This divergence in predictor selection between the forward/backward subset methods and Decision Trees could be attributed to the linear structure and multicollinearity sensitivity of the subset selection. In contrast, Decision Trees, as non-linear models, prioritize the efficacy of feature splitting, enabling them to discern more complex relationships and minimize the impact of multicollinearity. Hence, the perimeter, though often excluded in subset models due to high multicollinearity with the radius, is included in the Decision Tree model. 
 
-<br> The tuned Lasso model retained most predictors, excluding only four features with coefficients equals to 0, and still achieved a notably low mean squared error (0.054). The $\lambda$ for lasso model is around 7, indicating there is a penalty term impacting the value of cost function. 
+<br> The decision tree model is initially trained without specifying a maximum depth, and the criterion is based on entropy. The model yields a misclassification rate of 0.058 on the test set, and the resulting tree has a depth of 7, as indicated by the preceding image. To enhance performance and accuracy, the tree is subsequently pruned using 10-fold cross-validation. This pruning process results in a slightly improved misclassification rate of 0.053 on the test set. The depth of the pruned tree is reduced to 4, which is also documented in the previous image. Analysis of the confusion matrix reveals a tendency of the model to misclassify malignant tumors (M) as benign (B) more frequently than it does benign tumors (B) as malignant (M), which means that it is more likely to make false negative predictions.
+
+![DT Confusion Table](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Machine%20Learning%20Models/confusion%20table%20-%20DT.png)
+
+#### 4.1.4 Lasso Model
+<br> The tuned Lasso model retained most predictors, excluding only four features with coefficients equal to 0, and still achieved a notably low mean squared error (0.054). The $\lambda$ for the lasso model is around 7, indicating there is a penalty term impacting the value of the cost function. 
 
 ![lasso](https://github.com/Vivsquared/QTM-347-Final-Project/blob/15eedc0c797f865f681a4045794d6e34641417e9/Machine%20Learning%20Models/lasso.png)
 
-<br> The $\lambda$ for lasso model is around 7, indicating there is a penalty term impacting the value of cost function. 
+<br> The $\lambda$ for the lasso model is around 7, indicating there is a penalty term impacting the value of the cost function. 
 
 ```
                 Column Name  Coefficient
@@ -290,18 +299,48 @@ Optimal number of features: 26
 
 This suggests a general correlation between diagnosis and all predictors, notwithstanding the detected multicollinearity.
 
- <br> Accuracy:
-| Model         | Misclassification Rate   |
-|---------------|--------------------------|
-| Lasso Model   | 0.054                    |
-| Decision Tree | 0.065                    |
-| Pruned Tree   | 0.053                    |
-| Clustering    | 0.090                    |
+#### 4.1.5 KNN Classification
 
-<br> 
-Cross validation: 
+<br> The dataset is initially partitioned into a 70% training set and a 30% test set. Subsequently, feature scaling and standardization are applied to the independent variables (X) in both the training and test sets. A range of potential values for k, from 1 to 50, is established for the K-Nearest Neighbors (KNN) algorithm. Cross-validation is then employed to identify the optimal k-value that minimizes the misclassification rate. The optimal k is determined to be 7, as illustrated in the plot below.
+![KNN CV](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Machine%20Learning%20Models/Cross%20Validation%20Plot.png)
 
-<br>
+With k set to 7, the KNN model is refitted to make predictions on the test set. The resulting misclassification rate is calculated to be 0.029. An analysis of the confusion matrix reveals that the model is more inclined to incorrectly predict malignant tumors (M) as benign (B) rather than misclassifying benign tumors (B) as malignant (M), meaning it is more likely to make false negative predictions.
+
+![KNN Confusion Table](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Machine%20Learning%20Models/confusion%20table%20-%20KNN.png)
+
+#### 4.1.6 Logit Model
+
+<br> The dataset is initially divided into two parts: 70% for training and 30% for testing. To both the training and testing subsets of the independent variables X, a constant term is added. Subsequently, a logistic regression model (logit model) is trained using the training set. This model is then applied to the test set to predict the values of the dependent variable y. Given that the dependent variable is binary, the model's threshold is set at 0.5. Predicted outcomes exceeding 0.5 are classified as 1, indicating a malignant tumor, while predictions below 0.5 are classified as 0, indicating a benign tumor. The misclassification rate observed for the logit model is 0.041. An examination of the confusion matrix reveals that this model exhibits similar misclassification rates for false positives (benign tumors misclassified as malignant) and false negatives (malignant tumors misclassified as benign).
+
+![Logit Model Confusion Table](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Machine%20Learning%20Models/Confusion%20Table%20-%20Logit.png)
+
+#### 4.1.7 Logit Model - Forward Selection
+
+<br> A second logit model is built with only the 13 import variables from the forward selection, which are 'concave points_worst', 'radius_worst', 'texture_worst', 'area_worst', 'smoothness_se', 'symmetry_worst', 'compactness_se', 'radius_se', 'fractal_dimension_worst', 'compactness_mean', 'concave points_mean', 'concavity_worst', 'concavity_se'. The misclassification rate is 0.018. Analysis of the confusion matrix reveals that the model demonstrates similar rates of misclassification for both false positives (incorrectly identifying benign as malignant) and false negatives (incorrectly identifying malignant as benign).
+
+
+
+#### 4.1.7 Random Forest
+
+<br> The dataset is partitioned into a training set comprising 70% of the data and a testing set comprising the remaining 30%. A grid of parameters is established for the Random Forest model, including a range of estimators (50, 100, 150, 200, 250), a maximum number of features varying from 1 to 30, and minimum sample splits of 2, 5, 10, 15. This parameter grid is utilized in a 5-fold cross-validation process to determine the most effective combination of parameters for the Random Forest model. The optimal parameters identified are: max_features set to 4, min_samples_split to 2, and n_estimators to 200.
+
+Subsequently, the Random Forest model is retrained using these identified best parameters to make predictions on the test set. The resulting misclassification rate is computed to be 0.018. Analysis of the confusion matrix reveals that the model demonstrates similar rates of misclassification for both false positives (incorrectly identifying benign as malignant) and false negatives (incorrectly identifying malignant as benign).
+
+![RF Confusion Table](https://github.com/Vivsquared/QTM-347-Final-Project/blob/main/Machine%20Learning%20Models/confusion%20table%20-%20RF.png)
+
+ <br> Misclassification Rate for Each Model:
+| Model                 | Misclassification Rate   |
+|-----------------------|--------------------------|
+| Decision Tree         | 0.058                    |
+| Pruned Tree           | 0.053                    |
+| Lasso Model           | 0.054                    |
+| KNN Classification    | 0.029                    |
+| Logit Model           | 0.041                    |
+| Logit Model - Forward Selection           | 0.018                    |
+| Random Forest         | 0.018                    |
+| Clustering            | 0.090                    |
+
+This comparison illustrates the misclassification rates of various models, mirroring findings from the article "Prediction of Breast Cancer using Machine Learning Approaches." Consistent with the article, the Random Forest model emerges as the top performer in this study, exhibiting a misclassification rate of 0.018, thereby affirming its superior accuracy. Following Random Forest, KNN Classification ranks as the second most accurate model with a misclassification rate of 0.029. However, it's important to note that despite its relative accuracy, KNN Classification may not be the most suitable choice for diagnosing breast cancer, as it tends to yield more false negatives than false positives. This inclination towards false negatives could be a significant drawback in medical diagnosis, where missing a positive case could have serious implications. Other than that, the logit model, decision tree model (both pruned and unpruned), lasso model all have similar misclassification rates in the 0.04-0.06 range. 
 
 ### 4.2 Supplementary approaches
 This study incorporated KMeans clustering to group similar data points based on all features. While clustering is not typically employed for accuracy determination in classification, it achieved a remarkably low mean squared error (MSE) of 0.0896. This result suggests a strong correlation between the features and the diagnosis outcome. The clustering exhibited clear separation with minimal overlap, indicating distinct groupings.
@@ -311,10 +350,10 @@ Consequently, the machine learning models employed were either based on the numb
 <br> Clustering MSE: 0.090
 
 ## 5. Discussion
-Our study achieved high accuracy in tumor type prediction. Using the same dataset, a previous approach combined with an image-based dataset achieved a 75.52% accuracy rate without data filtering (Tan, 2020). In contrast, all methods in our study maintained accuracy rates above 90%. Both studies used 10-fold cross-validation, with the decision tree approach showing similarities. The accuracy discrepancy can be attributed to differences in predictor selection and the integration of imaging data in the Southern University of Science and Technology study. Tan's approach on accuracy based on the ratio of true and false positives, similar from our MSE-based calculation. Given that Tan’s coevolutionary neural network reached 88% accuracy before filtering the data, and considering the efficacy of resample filtering in enhancing accuracy in Tan’s study, these strategies could further improve our research.
+Our study achieved high accuracy in tumor-type prediction. Using the same dataset, a previous approach combined with an image-based dataset achieved a 75.52% accuracy rate without data filtering (Tan, 2020). In contrast, all methods in our study maintained accuracy rates above 90%. Both studies used 10-fold cross-validation, with the decision tree approach showing similarities. The accuracy discrepancy can be attributed to differences in predictor selection and the integration of imaging data in the Southern University of Science and Technology study. Tan's approach to accuracy is based on the ratio of true and false positives, similar to our misclassification-based calculation. Given that Tan’s coevolutionary neural network reached 88% accuracy before filtering the data, and considering the efficacy of resample filtering in enhancing accuracy in Tan’s study, these strategies could further improve our research.
 
 ## 6. Conclusion
-Our study leverages Wisconsin’s open dataset on breast cancer, exploring a combination of clustering and classification methods alongside subset selection for predictor determination — an approach not previously undertaken. Focused on selecting effective variables for accurate tumor type prediction, the study signifies a milestone in breast cancer risk assessment and diagnostic speed enhancement. It involved two researchers: Researcher 1 handled subset selection and clustering, while Researcher 2 focused on the machine learning approach and cross-validation, and both researcher consistantly aims to enhance the accuracy of the prediction. The study's success in predicting tumor type underscores its potential impact on breast cancer diagnostics.
+Our study leverages Wisconsin’s open dataset on breast cancer, exploring a combination of clustering and classification methods alongside subset selection for predictor determination — an approach not previously undertaken. Focused on selecting effective variables for accurate tumor type prediction, the study signifies a milestone in breast cancer risk assessment and diagnostic speed enhancement. It involved two researchers: Researcher 1 handled subset selection and clustering, while Researcher 2 focused on the machine learning approach and cross-validation, and both researchers consistently aimed to enhance the accuracy of the prediction. The study's success in predicting tumor type underscores its potential impact on breast cancer diagnostics.
 
 ## 7. References
 Bursac Z, Gauss CH, Williams DK, Hosmer DW. Purposeful selection of variables in logistic regression. Source Code Biol Med. 2008 Dec 16;3:17. doi: 10.1186/1751-0473-3-17. PMID: 19087314; PMCID: PMC2633005.
