@@ -86,7 +86,8 @@ This is a heatmap for all the worst value variables and diagnosis. There are som
 <details>
 
 <summary>Forward Selection</summary>
-  
+<br>Forward selection is a stepwise subset selection. The forwars selection start with no predictors and add predictors to the model one at once. The stepwise selecion is devided into 4 steps: the first step is when there is no prdictors; the second step is by fitting in p models with one predictor and select the best model; the third and fourth step is by fitting in more predictors based on the predictor fitted in previously. In each step, best is defined as having smallest RSS/MSE or highest R squared. The ultimate predictors for forward selection is set to 13 in the end. 
+
 </details>
 
 <details>
