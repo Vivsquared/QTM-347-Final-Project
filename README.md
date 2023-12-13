@@ -11,6 +11,45 @@ Breast cancer is the second most common cancer among women in the United States,
 This study comprises three distinct sections to determine breast tumor types and the presence of breast cancer: subset selection, machine learning methodology, and cross-validation.
 Initially, the study employed two subset selection methods: forward selection and backward selection. Forward selection is typically used when the number of predictors exceeds the number of samples, whereas backward selection is preferred when the sample size surpasses the number of predictors. Given our dataset of approximately 500 samples and 30 predictors, backward selection was initially applied. However, due to the relatively large number of predictors and limited sample size, and considering our extensive set of covariates, forward selection was deemed more beneficial (Bursac, 2008). The effectiveness of predictors in subset selection was evaluated based on R-squared values and P-values, with a higher R-squared and a P-value under 0.05 as the criteria for effective predictor selection. Consequently, the predictors chosen for forward selection included: concave_points_worst, radius_worst, texture_worst, area_worst, smoothness_se, symmetry_worst, compactness_se, radius_se, fractal_dimension_worst, compactness_mean, concave_points_mean, concavity_worst, and concavity_se.
 ```
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:              diagnosis   R-squared:                       0.769
+Model:                            OLS   Adj. R-squared:                  0.763
+Method:                 Least Squares   F-statistic:                     141.8
+Date:                Wed, 13 Dec 2023   Prob (F-statistic):          9.50e-167
+Time:                        04:08:49   Log-Likelihood:                 22.556
+No. Observations:                 569   AIC:                            -17.11
+Df Residuals:                     555   BIC:                             43.70
+Df Model:                          13                                         
+Covariance Type:            nonrobust                                         
+===========================================================================================
+                              coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------------------
+concave points_worst       -1.1717      0.552     -2.123      0.034      -2.255      -0.088
+const                       3.1568      0.180     17.494      0.000       2.802       3.511
+radius_worst               -0.1334      0.015     -9.042      0.000      -0.162      -0.104
+texture_worst              -0.0107      0.002     -5.857      0.000      -0.014      -0.007
+area_worst                  0.0009      0.000      7.731      0.000       0.001       0.001
+s0oothness_se             -21.8644      4.381     -4.991      0.000     -30.469     -13.260
+sy00etry_worst             -0.7695      0.210     -3.668      0.000      -1.181      -0.357
+co0pactness_se              0.6599      1.293      0.510      0.610      -1.880       3.200
+radius_se                  -0.2917      0.069     -4.229      0.000      -0.427      -0.156
+fractal_di0ension_worst    -3.6542      1.115     -3.276      0.001      -5.845      -1.463
+co0pactness_0ean            3.0183      0.641      4.708      0.000       1.759       4.278
+concave points_0ean        -3.6543      1.052     -3.474      0.001      -5.720      -1.588
+concavity_worst            -0.4799      0.151     -3.176      0.002      -0.777      -0.183
+concavity_se                1.8357      0.718      2.557      0.011       0.426       3.246
+==============================================================================
+Omnibus:                       24.593   Durbin-Watson:                   1.751
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               26.680
+Skew:                          -0.524   Prob(JB):                     1.61e-06
+Kurtosis:                       3.161   Cond. No.                     4.67e+05
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 4.67e+05. This might indicate that there are
+strong multicollinearity or other numerical problems.
 ```
 For backward selection, the predictors were: compactness_mean, concave_points_mean, radius_se, smoothness_se, concavity_se, concave_points_se, radius_worst, texture_worst, area_worst, concavity_worst, symmetry_worst, and fractal_dimension_worst. The eleven common variables identified are associated with concavity, compactness, radius, texture, area, and smoothness. However, variables such as perimeter and symmetry were not generally considered, possibly due to data multicollinearity (notably between perimeter and radius).
 In the machine learning phase, the Decision Tree model exhibited a distinct preference for variables labeled as “worst,” with “perimeter_worst” emerging as the most critical feature. This divergence in predictor selection between the forward/backward subset methods and Decision Trees could be attributed to the linear structure and multicollinearity sensitivity of the subset selection. In contrast, Decision Trees, as non-linear models, prioritize the efficacy of feature splitting, enabling them to discern more complex relationships and minimize the impact of multicollinearity. Hence, the perimeter, though often excluded in subset models due to high multicollinearity with the radius, is deemed vital in the Decision Tree model. The tuned Lasso model retained most predictors, excluding only four features, and still achieved a notably low mean squared error (0.054). This suggests a general correlation between diagnosis and all predictors, notwithstanding the detected multicollinearity.
