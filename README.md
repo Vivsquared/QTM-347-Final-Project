@@ -86,14 +86,19 @@ This is a heatmap for all the worst value variables and diagnosis. There are som
 <details>
 
 <summary>Forward Selection</summary>
-<br>Forward selection is a stepwise subset selection. The forwars selection start with no predictors and add predictors to the model one at once. The stepwise selecion is devided into 4 steps: the first step is when there is no prdictors; the second step is by fitting in p models with one predictor and select the best model; the third and fourth step is by fitting in more predictors based on the predictor fitted in previously. In each step, best is defined as having smallest RSS/MSE or highest R squared. The ultimate predictors for forward selection is set to 13 in the end. 
+<br>Forward selection is a stepwise subset selection. The forward selection start with no predictors and add predictors to the model one at once. The stepwise selecion is devided into 4 steps: the first step is when there is no prdictors; the second step is by fitting in p models with one predictor and select the best model; the third and fourth step is by fitting in more predictors based on the predictor fitted in previously. In each step, best is defined as having smallest RSS/MSE or highest R squared. In general, forward stepwise selection is more applicable to high-dimensional settings.
+
+<br>For this study, the ultimate predictors for forward selection is set to 13 in the end. 
 
 </details>
 
 <details>
 
 <summary>Backward Selection</summary>
-  
+<br>Backwardd selection is a stepwise subset selection. The backward selection start with all predictors and take away predictors from the model one at once. The stepwise selecion is devided into 4 steps: the first step is when there is p prdictors; the second step is by fitting in p models with p-1 predictors and select the best model; the third and fourth step is by fitting in p-n predictors based on the predictors fitted in previously. In each step, best is defined as having smallest RSS/MSE or highest R squared. In general, backward stepwise selection is applicable to low-dimensional settings, and backward selection is not returning same result as forward selection.
+
+<br>For this study, the ultimate predictors for backward selection is set to 13 in the end. 
+
 </details>
 
 <details>
@@ -289,7 +294,7 @@ Consequently, the machine learning models employed were either based on the numb
 <br> Clustering MSE: 0.090
 
 ## 5. Discussion
-Our study achieved high accuracy in tumor type prediction. Using the same dataset, a previous approach combined with an image-based dataset achieved a 75.52% accuracy rate without data filtering (Tan, 2020). In contrast, all methods in our study maintained accuracy rates above 90%. Both studies used 10-fold cross-validation, with the decision tree approach showing similarities. The accuracy discrepancy can be attributed to differences in predictor selection and the integration of imaging data in the Southern University of Science and Technology study. Tan's approach on accuracy based on the ratio of true and false positives, differing from our MSE-based calculation. Given that Tan’s coevolutionary neural network reached 88% accuracy before filtering the data, and considering the efficacy of resample filtering in enhancing accuracy in Tan’s study, these strategies could further improve our research.
+Our study achieved high accuracy in tumor type prediction. Using the same dataset, a previous approach combined with an image-based dataset achieved a 75.52% accuracy rate without data filtering (Tan, 2020). In contrast, all methods in our study maintained accuracy rates above 90%. Both studies used 10-fold cross-validation, with the decision tree approach showing similarities. The accuracy discrepancy can be attributed to differences in predictor selection and the integration of imaging data in the Southern University of Science and Technology study. Tan's approach on accuracy based on the ratio of true and false positives, similar from our MSE-based calculation. Given that Tan’s coevolutionary neural network reached 88% accuracy before filtering the data, and considering the efficacy of resample filtering in enhancing accuracy in Tan’s study, these strategies could further improve our research.
 
 ## 6. Conclusion
 Our study leverages Wisconsin’s open dataset on breast cancer, exploring a combination of clustering and classification methods alongside subset selection for predictor determination — an approach not previously undertaken. Focused on selecting effective variables for accurate tumor type prediction, the study signifies a milestone in breast cancer risk assessment and diagnostic speed enhancement. It involved two researchers: Researcher 1 handled subset selection and clustering, while Researcher 2 focused on the machine learning approach and cross-validation, and both researcher consistantly aims to enhance the accuracy of the prediction. The study's success in predicting tumor type underscores its potential impact on breast cancer diagnostics.
