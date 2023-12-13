@@ -238,14 +238,20 @@ Notes:
 strong multicollinearity or other numerical problems.
 ```
 
-However, variables such as perimeter and symmetry were not generally considered, possibly due to data multicollinearity (notably between perimeter and radius).
-In the machine learning phase, the Decision Tree model exhibited a distinct preference for variables labeled as “worst,” with “perimeter_worst” emerging as the most critical feature. 
-![Decision_Tree](https://github.com/Vivsquared/QTM-347-Final-Project/blob/641a4a1d91c3a9ef80327dd52eacdb8c8573d859/Machine%20Learning%20Models/Decision%20Tree.png)
+<br> However, variables such as perimeter and symmetry were not generally considered, possibly due to data multicollinearity (notably between perimeter and radius).
+In the machine learning phase, the Decision Tree model exhibited a distinct preference for variables labeled as “worst,” with “radius_worst” emerging as the most critical feature. 
+![Decision_Tree](https://github.com/Vivsquared/QTM-347-Final-Project/blob/ccf7524f7208582e0ad411ababd9a40cb31d2b13/Machine%20Learning%20Models/Decision%20Tree.png)
 
+After the pruning, the decision tree gains a higher accuracy with with “radius_worst” and other variables labeled as "worst" remains as the critical features.
+![Pruned_Tree](https://github.com/Vivsquared/QTM-347-Final-Project/blob/ccf7524f7208582e0ad411ababd9a40cb31d2b13/Machine%20Learning%20Models/pruned%20tree.png)
 
-This divergence in predictor selection between the forward/backward subset methods and Decision Trees could be attributed to the linear structure and multicollinearity sensitivity of the subset selection. In contrast, Decision Trees, as non-linear models, prioritize the efficacy of feature splitting, enabling them to discern more complex relationships and minimize the impact of multicollinearity. Hence, the perimeter, though often excluded in subset models due to high multicollinearity with the radius, is deemed vital in the Decision Tree model. The tuned Lasso model retained most predictors, excluding only four features with coefficients equals to 0, and still achieved a notably low mean squared error (0.054). The $\lambda$ for lasso model is around 7, indicating there is a penalty term impacting the value of cost function. 
+<br> This divergence in predictor selection between the forward/backward subset methods and Decision Trees could be attributed to the linear structure and multicollinearity sensitivity of the subset selection. In contrast, Decision Trees, as non-linear models, prioritize the efficacy of feature splitting, enabling them to discern more complex relationships and minimize the impact of multicollinearity. Hence, the perimeter, though often excluded in subset models due to high multicollinearity with the radius, is included in the Decision Tree model. 
+
+<br> The tuned Lasso model retained most predictors, excluding only four features with coefficients equals to 0, and still achieved a notably low mean squared error (0.054). The $\lambda$ for lasso model is around 7, indicating there is a penalty term impacting the value of cost function. 
 
 ![lasso](https://github.com/Vivsquared/QTM-347-Final-Project/blob/15eedc0c797f865f681a4045794d6e34641417e9/Machine%20Learning%20Models/lasso.png)
+
+<br> The $\lambda$ for lasso model is around 7, indicating there is a penalty term impacting the value of cost function. 
 
 ```
                 Column Name  Coefficient
@@ -288,7 +294,8 @@ This suggests a general correlation between diagnosis and all predictors, notwit
 | Model         | Misclassification Rate   |
 |---------------|--------------------------|
 | Lasso Model   | 0.054                    |
-| Decision Tree | 0.94                     |
+| Decision Tree | 0.065                    |
+| Pruned Tree   | 0.053                    |
 | Clustering    | 0.090                    |
 
 <br> 
